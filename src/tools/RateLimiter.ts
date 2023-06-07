@@ -17,18 +17,37 @@ export default class RateLimiter {
             this.leak();
         }, this.leakRate)
     }
+    /**
+     * Adds a request to the bucket. The function will return a promise that resolves when the request is executed.
+     * @param request The request to add to the bucket
+     */
+    async addRequest(request: AsyncFunction) {
 
-    addRequest(request: Droplet) {
-        this.bucket.push(request);
+
+        return new Promise((resolve, reject) => {
+            const callback = (res: any) => {
+                resolve(res);
+            }
+            this.bucket.push({
+                function: request,
+                leakCallback: callback
+            });
+
+        })
     }
 
-    private leak() {
+    private async leak() {
         const droplet = this.bucket.shift();
         if (!droplet) return;
-
+        const res = await droplet.function();
+        droplet.leakCallback(res);
     }
 }
 
 export interface Droplet {
+    function: AsyncFunction,
+    leakCallback: (res: any) => void
+}
+export interface AsyncFunction {
     (): Promise<any>
 }

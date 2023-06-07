@@ -1,47 +1,42 @@
 
-import RateLimiter, { Droplet } from '../../tools/RateLimiter';
+import RateLimiter, { AsyncFunction, Droplet } from '../../tools/RateLimiter';
 
 describe('RateLimiter', () => {
+    let limiter: RateLimiter;
+    beforeEach(() => {
+        limiter = new RateLimiter(1, 1);
+    });
     it('should create a RateLimiter', () => {
-        const limiter = new RateLimiter(1, 1);
         expect(limiter).toBeInstanceOf(RateLimiter);
     });
 
     it('should create a RateLimiter with the correct leak rate', () => {
-        const limiter = new RateLimiter(1, 1);
         expect(limiter.leakRate).toBe(1000);
     });
 
     it('should add a request to the bucket', () => {
-        const limiter = new RateLimiter(1, 1);
-        const request: Droplet = () => { return Promise.resolve() };
+        const request: AsyncFunction = () => { return Promise.resolve("hi") };
         limiter.addRequest(request);
         expect(limiter.bucket.length).toBe(1);
     });
 
-    it('should remove a request from the bucket after the leak interval', (done) => {
-        const limiter = new RateLimiter(1, 1);
-        const request: Droplet = () => { return Promise.resolve() };
-        limiter.addRequest(request);
-        expect(limiter.bucket.length).toBe(1);
-        setTimeout(() => {
-            expect(limiter.bucket.length).toBe(0);
-            done();
-        }, 1000);
+    it('should remove a request from the bucket after the leak interval', async () => {
+        const request: AsyncFunction = () => { return Promise.resolve("hi") };
+        const start = Date.now();
+        const res = await limiter.addRequest(request);
+        expect(Date.now() - start).toBeLessThan(1020);
+        expect(res).toBe("hi");
     });
 
-    it('should work with multiple requests', (done) => {
-        const limiter = new RateLimiter(1, 1);
-        const request: Droplet = () => { return Promise.resolve() };
-        limiter.addRequest(request);
-        limiter.addRequest(request);
-        expect(limiter.bucket.length).toBe(2);
-        setTimeout(() => {
-            expect(limiter.bucket.length).toBe(1);
-        }, 1000);
-        setTimeout(() => {
-            expect(limiter.bucket.length).toBe(0);
-            done();
-        }, 2010);
+    it('should work with multiple requests', async () => {
+        const request1: AsyncFunction = () => { return Promise.resolve("hi1") };
+        const request2: AsyncFunction = () => { return Promise.resolve("hi2") };
+        const req1 = limiter.addRequest(request1);
+        const req2 = limiter.addRequest(request2);
+        const start = Date.now();
+        const res = await Promise.all([req1, req2])
+        expect(Date.now() - start).toBeLessThan(2020);
+        expect(res[0]).toBe("hi1");
+        expect(res[1]).toBe("hi2");
     })
 })
