@@ -1,4 +1,5 @@
+import { dummy } from '../dummy'
 
 test('Dummy test', () => {
-    expect(true).toBe(true);
+    expect(dummy()).toBe('dummy');
 })
