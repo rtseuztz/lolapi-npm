@@ -1,27 +1,52 @@
-import RiotQuery from "../tools/RiotQuery";
+import RiotAPIClient from '../client/RiotAPIClient';
 
-export default class Summoner {
-    readonly accountid: string;
-    readonly profileiconid: number;
-    readonly revisiondate: number;
-    readonly name: string;
-    readonly id: string;
-    readonly puuid: string;
-    readonly summonerlevel: number;
-    readonly Query: RiotQuery
+export class Summoner {
+    /** 
+     * Encrypted account ID.
+     */
+    accountId: string;
+    /** 
+     * ID of the summoner icon associated with the summoner 
+     */
+    profileIconId: number;
+    /** 
+     * Date summoner was last modified specified as epoch milliseconds.  
+     * The following events will update this timestamp: summoner name change, summoner level change, or profile icon change.
+     */
+    revisionDate: number;
+    /**
+     *  Summoner name.
+     */
+    name: string;
+    /**
+     * Encrypted summoner ID. Max length 63 characters.
+     */
+    id: string;
+    /**
+     * Encrypted PUUID. Exact length of 78 characters.
+     */
+    puuid: string;
+    /**
+     * Summoner level associated with the summoner.
+     */
+    summonerLevel: number;
 
-    static readonly url = "https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/"
-    constructor(RiotQuery: RiotQuery, accountid: string, profileiconid: number, revisiondate: number, name: string, id: string, puuid: string, summonerlevel: number) {
-        this.Query = RiotQuery;
-        this.accountid = accountid;
-        this.profileiconid = profileiconid;
-        this.revisiondate = revisiondate;
+    constructor(
+        accountId: string,
+        profileIconId: number,
+        revisionDate: number,
+        name: string,
+        id: string,
+        puuid: string,
+        summonerLevel: number,
+    ) {
+        this.accountId = accountId;
+        this.profileIconId = profileIconId;
+        this.revisionDate = revisionDate;
         this.name = name;
         this.id = id;
         this.puuid = puuid;
-        this.summonerlevel = summonerlevel;
-    }
-    static get() {
-        this.Query.query(this.url)
+        this.summonerLevel = summonerLevel;
     }
 }
+export default Summoner

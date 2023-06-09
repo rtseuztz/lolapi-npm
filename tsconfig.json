@@ -3,14 +3,23 @@
         "target": "es6",
         "module": "commonjs",
         "declaration": true,
-        "outDir": "./lib",
-        "strict": true
+        "outDir": "dist/elementSeparator",
+        "strict": true,
+        "lib": [
+            "es5",
+            "es6",
+            "es2015",
+            "es2016",
+            "DOM",
+            "ESNext"
+        ]
     },
     "include": [
-        "src",
+        "src/**/*.ts",
     ],
     "exclude": [
         "node_modules",
-        "**/__tests__/*"
+        "**/__tests__/*",
+        "**/__mocks__/*"
     ]
 }
