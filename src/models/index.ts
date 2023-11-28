@@ -1,2 +1,2 @@
-export * from './Summoner'
-export * from './Match'
+export * from './Summoner';
+export * from './Match';

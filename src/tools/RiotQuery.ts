@@ -36,7 +36,7 @@ export default class RiotQuery {
             // })
             // return await this.query(url);
             default:
-                throw new Error(`Error ${res.status}: ${res.statusText}`);
+                throw new Error(`Error ${res.status}: ${res.statusText}, url: ${url}`);
         }
     }
 }

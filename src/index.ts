@@ -1,9 +1,8 @@
-export * from './client'
-export * from './models'
-export default
-    {
-        RiotAPIClient: require('./client/RiotAPIClient').default
-    }
+export * from './client';
+export * from './models';
+export default {
+    RiotAPIClient: require('./client/RiotAPIClient').default,
+};
 // TODO:
 /**
  * Figure out how to export the default riotapi client

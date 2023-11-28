@@ -1,1 +1,1 @@
-export * from './RiotAPIClient'
+export * from './RiotAPIClient';

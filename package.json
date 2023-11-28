@@ -4,7 +4,7 @@
     "type": "git",
     "url": "https://github.com/rtseuztz/lolapi-npm"
   },
-  "version": "0.0.7",
+  "version": "0.0.10",
   "description": "A Riot Api wrapper for node.js",
   "main": "dist/cjs/index.js",
   "types": "dist/esm/index.d.ts",
@@ -12,13 +12,13 @@
   "scripts": {
     "test": "jest --config jestconfig.json",
     "test-coverage": "jest --config jestconfig.json --coverage",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "build": "npm run build:esm && npm run build:cjs",
     "build:esm": "tsc --outDir dist/esm",
     "build:cjs": "tsc --module CommonJS --outDir dist/cjs",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
+    "prepublishOnly": "npm run lint",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"

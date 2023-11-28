@@ -1,16 +1,16 @@
 import RiotAPIClient from '../client/RiotAPIClient';
 
 export class Summoner {
-    /** 
+    /**
      * Encrypted account ID.
      */
     accountId: string;
-    /** 
-     * ID of the summoner icon associated with the summoner 
+    /**
+     * ID of the summoner icon associated with the summoner
      */
     profileIconId: number;
-    /** 
-     * Date summoner was last modified specified as epoch milliseconds.  
+    /**
+     * Date summoner was last modified specified as epoch milliseconds.
      * The following events will update this timestamp: summoner name change, summoner level change, or profile icon change.
      */
     revisionDate: number;
@@ -30,6 +30,10 @@ export class Summoner {
      * Summoner level associated with the summoner.
      */
     summonerLevel: number;
+    /**
+     * Date summoner was last modified specified as epoch milliseconds.
+     */
+    lmod: number;
 
     constructor(
         accountId: string,
@@ -39,6 +43,7 @@ export class Summoner {
         id: string,
         puuid: string,
         summonerLevel: number,
+        lmod?: number,
     ) {
         this.accountId = accountId;
         this.profileIconId = profileIconId;
@@ -47,6 +52,7 @@ export class Summoner {
         this.id = id;
         this.puuid = puuid;
         this.summonerLevel = summonerLevel;
+        this.lmod = lmod || 0;
     }
 }
-export default Summoner
+export default Summoner;
